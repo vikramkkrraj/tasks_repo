@@ -1,38 +1,34 @@
-function formatUserDetails(user) {
-    // Extract values with optional chaining and default values
-    const {
-      id = "Information not available",
-      profile: {
-        name = "Information not available",
-        address: {
-          city = "Information not available",
-          zipcode = "Information not available"
-        } = {}
-      } = {}
+
+function getUserDetails(user){
+  const {
+    id, 
+    profile : {
+      name = "Infomation not available",
+      address 
+    } = {}
     } = user;
-  
-    // Construct and return the output string
-    return `"User ${name} (ID: ${id}) lives in ${city} (ZIP: ${zipcode})"`;
+    
+  return (`User ${name} (ID : ${id}) lives in ${address?.city || "Infomation not available"} (ZIP : ${address?.zipcode || "Infomation not available"})`)
+}
+
+const user1 = {
+  id: 123,
+  profile: {
+    name: "John Doe",
+    address: {
+      city: "Los Angeles",
+      zipcode: "90001"
+    }
   }
-  
-  // Example usage
-  const user = {
-    id: 123,
-    profile: {
-      name: "John Doe",
-      address: {
-        city: "Los Angeles",
-        zipcode: "90001"
-      }
-    }
-  };
-  const user1 = {
-    id: 123,
-    profile: {
-      name: "John Doe"
-    }
-  };
-  
-console.log(formatUserDetails(user)); // User John Doe (ID: 123) lives in Los Angeles (ZIP: 90001)
-console.log(formatUserDetails(user1)); // User John Doe (ID: 123) lives in Information not available (ZIP: Information not available)
-  
+};
+
+const user2 = {
+  id: 123,
+  profile: {
+    name: "John Doe"
+  }
+};
+
+
+console.log(getUserDetails(user1));
+console.log(getUserDetails(user2));
