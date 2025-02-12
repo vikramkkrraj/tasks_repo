@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <style>
+
+      nav {
+        width: 100%;
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(218, 93, 93);
+      }
+      nav > div {
+        display: flex;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+        padding: 10px;
+      }
+
+      .projects-container {
+        display: flex;
+        flex-direction: column;
+      }
+      .project-box {
+        border: 1px solid;
+        margin-bottom: 10px;
+      }
+
+      /* Contact Form Styling */
+      form {
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+        gap: 10px;
+      }
+
+      label {
+        font-size: 16px;
+      }
+
+      input,
+      textarea {
+        width: 300px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+     footer {
+        width: 100%;
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(218, 93, 93);
+     }
+
+     
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <h1>Welcome to My Portfolio</h1>
+      <div>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <h2>About Me</h2>
+      <p>
+        Hello! I'm a passionate web developer. I enjoy creating beautiful and
+        functional websites.
+      </p>
+      <img src="https://via.placeholder.com/200" alt="Profile Image" />
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects-container">
+        <div class="project-box">
+          <h3>Project 1</h3>
+          <p>A brief description of the first project.</p>
+        </div>
+        <div class="project-box">
+          <h3>Project 2</h3>
+          <p>A brief description of the second project.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <form>
+        <!-- Full Name Input -->
+        <label for="fullname">Full Name:</label>
+        <input
+          type="text"
+          id="fullname"
+          placeholder="Enter your name"
+          required
+        />
+
+        <!-- Date Input -->
+        <label for="date">Date:</label>
+        <input type="date" id="date" required />
+
+        <!-- Message Input -->
+        <label for="message">Message:</label>
+        <textarea
+          id="message"
+          rows="4"
+          placeholder="Your message..."
+          required
+        ></textarea>
+      </form>
+      <!-- Submit Button -->
+      <button type="submit">Submit</button>
+    </section>
+
+    <!-- footer section -->
+     <!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 My Portfolio | All Rights Reserved</p>
+    <p>Follow me on:  
+      <a href="#">LinkedIn</a> | 
+      <a href="#">GitHub</a>
+    </p>
+  </footer>
+  
+  </body>
+</html>
