@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Bar</title>
+  <style>
+    /* Navigation bar styling */
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #333;
+      padding: 15px;
+    }
+
+    .nav-section {
+      list-style: none;
+      padding: 0;
+    }
+
+    .nav-section li {
+      margin: 5px 0;
+    }
+
+    /* Descendant combinators - Different colors for links in each section */
+    .section-1 a {
+      color: lightblue;
+    }
+
+    .section-2 a {
+      color: lightgreen;
+    }
+
+    .section-3 a {
+      color: orange;
+    }
+
+    /* Child combinator - Direct child links bold */
+    .nav-section > li > a {
+      font-weight: bold;
+    }
+
+    /* Hover and Active Effects */
+    a:hover {
+      text-decoration: underline;
+      color: yellow;
+    }
+
+    a:active {
+      color: red;
+    }
+
+    /* Attribute selector - Override color for links starting with "https" */
+    a[href^="https"] {
+      color: violet !important;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul class="nav-section section-1">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li>
+        <ul>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Mission</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul class="nav-section section-2">
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li>
+        <ul>
+          <li><a href="#">Consulting</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul class="nav-section section-3">
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Contact</a></li>
+      <li>
+        <ul>
+          <li><a href="#">Careers</a></li>
+          <li><a href="https://external.com">External Link</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+</body>
+</html>
