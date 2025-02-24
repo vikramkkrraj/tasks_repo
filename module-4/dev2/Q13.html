@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Even Propagation</title>
+    <style>
+        #outer, #middle, #inner { padding: 20px; margin: 10px; border: 2px solid black; }
+        #outer { background-color: lightcoral; }
+        #middle { background-color: lightblue; }
+        #inner { background-color: lightgreen; }
+    </style>
+</head>
+<body>
+    <h1>Even Propagation</h1>
+    <div id="outer">
+        Outer Block 
+        <button id="outerbtn">Outer Button</button>
+
+        <div id="middle">
+            Middle Block 
+            <button id="middlebtn">Middle Block</button>
+            <div id="inner">
+                Inner Block 
+                <button id="innerbtn">Inner Block</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const outer = document.querySelector("#outer");
+        const middle = document.querySelector("#middle")
+        const inner = document.querySelector("#inner");
+        const outerbtn = document.querySelector("#outerbtn");
+        const middlebtn = document.querySelector("#middlebtn");
+        const innerbtn = document.querySelector("#innerbtn");
+        // console.log(outer.id, middle.id, inner.id, outerbtn, middlebtn, innerbtn);
+        function eventHandler(event){
+            alert(`${this.id} clicked`);
+        }
+
+        function eventHandlerStopper(event){
+            alert(`${this.id} Clicked`);
+            event.stopPropagation();
+        }
+
+        // Even bubbling phase
+        outer.addEventListener("click", eventHandler);
+        middle.addEventListener('click', eventHandler);
+        inner.addEventListener('click',eventHandler);
+
+        // Stop Event Bubbling
+        outer.addEventListener("click", eventHandler);
+        middle.addEventListener('click', eventHandlerStopper);
+        inner.addEventListener('click',eventHandlerStopper);
+
+
+        // Event Capturing 
+        outer.addEventListener("click", eventHandler,true);
+        middle.addEventListener('click', eventHandler,true);
+        inner.addEventListener('click',eventHandler,true);
+        
+
+        // stop Event Capturing
+        outer.addEventListener("click", eventHandler);
+        middle.addEventListener('click', eventHandlerStopper);
+        inner.addEventListener('click',eventHandlerStopper);
+    </script>
+</body>
+</html>

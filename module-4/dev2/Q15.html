@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      .container {
+        max-width: 400px;
+        margin: auto;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+      button {
+        margin: 5px;
+        padding: 5px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Task Management App</h2>
+      <input id="taskInput" type="text" placeholder="Enter task" />
+      <button id="addTask">Add Task</button>
+      <ul id="taskList"></ul>
+      <div>
+        <button id="filterAll">All Tasks</button>
+        <button id="filterCompleted">Completed</button>
+        <button id="filterIncomplete">Incomplete</button>
+        <button id="sortTasks">Sort A-Z</button>
+      </div>
+      <p>Total: <span id="totalCount">0</span></p>
+      <p>Completed: <span id="completedCount">0</span></p>
+      <p>Incomplete: <span id="incompleteCount">0</span></p>
+    </div>
+  </body>
+</html>

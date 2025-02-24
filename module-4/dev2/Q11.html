@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating and Revoming Elements</title>
+</head>
+<body>
+    <div id="root" ></div>
+    <script>
+        const root = document.querySelector('#root');
+        const addbutton = document.createElement('button');
+        const removebutton = document.createElement('button');
+        addbutton.innerText = "Add Paragraph";
+        removebutton.innerText = "Remove Last Paragraph";
+        root.append(addbutton);
+        root.append(removebutton);
+
+        const paradiv = document.querySelector('div');
+
+        addbutton.addEventListener('click', () => {
+            const para = document.createElement('p');
+            para.innerText = "This is a new paragraph.";
+            
+            paradiv.appendChild(para);
+        })
+        removebutton.addEventListener("click", ()=> {
+            paradiv.removeChild(paradiv.lastChild);
+        })
+    </script>
+</body>
+</html>
