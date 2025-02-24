@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .odd {
+        font-size: bold;
+        color: blue;
+      }
+      .even {
+        font-size: bold;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn">Add Itme</button>
+    <ul id="ul">
+      <li class="odd">list 1</li>
+      <li class="even">list 2</li>
+      <li class="odd">list 3</li>
+    </ul>
+
+    <script>
+      const btn = document.querySelector("#btn");
+      const ul = document.querySelector("#ul");
+
+      btn.addEventListener("click", () => {
+        let li = document.createElement("li");
+
+        li.textContent = "New Item";
+
+        let item = ul.children.length + 1;
+
+        if (item % 2 == 0) {
+          li.classList.add("even");
+        } else {
+          li.classList.add("odd");
+        }
+
+        ul.appendChild(li);
+      });
+    </script>
+  </body>
+</html>

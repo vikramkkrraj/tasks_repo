@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: auto;;
+            /* border: 2px solid; */
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        button{
+            width: 20%;
+        }
+        #contentDiv{
+            display: block;
+            align-items: center;
+            width: 30%;
+            top: 50%;
+            left: 50%;
+            /* background-color: yellow; */
+            border: 1px solid;
+            margin: auto;
+            color: white;
+            background-color: black;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <label> Enter color name : <input type="text" id="colorname"/> </label>
+      <label> Text Content : <input type="text"  id="textContent"/> </label>
+      <button onclick="changeBg()">Change Background color</button>
+      <button onclick="updateText()">Update Text</button>
+    </div>
+    <div id="contentDiv">You can change me by typing something inside Text Content</div>
+
+    <script>
+         let contentDiv= document.querySelector("#contentDiv");
+        function changeBg(){
+
+            const color = document.querySelector('#colorname').value;
+           
+            console.log(color,contentDiv);
+            contentDiv.style.backgroundColor = color;
+            if(contentDiv.style.backgroundColor == ""){
+                alert('Invalid color name');
+            }
+        }
+        function updateText(){
+            const text = document.querySelector("#textContent").value;
+            console.log(text);
+            contentDiv.innerText = text;
+        }
+    
+    </script>
+  </body>
+</html>

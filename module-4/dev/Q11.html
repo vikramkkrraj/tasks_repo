@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  
+  <body>
+    <h1 id="heading">Hello World</h1>
+    <p>This topic is about DOM</p>
+    <p>This topic is about DOM</p>
+    <p>This topic is about DOM</p>
+    <p>This topic is about DOM</p>
+    <p>This topic is about DOM</p>
+    <div class="container">
+      <div style="width: 50px; height: 50px; background-color: lightblue"></div>
+
+      <div></div>
+      <div></div>
+    </div>
+    <script>
+        document.querySelector("#heading").innerText = "Welcome to the DOM World!.";
+    
+        const paras = document.getElementsByTagName("p");
+    
+        // for(let i=0; i<paras.length; i++){
+        //   paras[i].style.color= "blue";
+        // }
+    
+        for (let el of paras) {
+          el.style.color = "blue";
+        }
+    
+        // can not use forEach loop, as HMTLCollections, which is not an arry.
+    
+        const firstDiv = document.querySelector(".container div"); // Selects the first <div> inside .container
+        firstDiv.style.backgroundColor = "yellow"; // Change background to yellow
+        
+      </script>
+  </body>
+</html>

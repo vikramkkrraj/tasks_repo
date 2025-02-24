@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .container {
+        max-width: 400px;
+        margin: auto;
+        text-align: center;
+      }
+      input,
+      button {
+        margin: 10px;
+        padding: 8px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>To-Do List</h2>
+      <input type="text" placeholder="Enter a task" id="todo" />
+      <button onclick="addtask()">Add Task</button>
+      <ul id="tasklist"></ul>
+    </div>
+
+    <script>
+      const ul = document.querySelector("#tasklist");
+      const todo = document.querySelector("#todo");
+      // console.log(ul,input);
+      function addtask() {
+        const li = document.createElement("li")
+
+        li.innerHTML = `${todo.value} <button onclick="completedTask(this)">complete</button> <button onclick="deleteTask(this)">delete</button>`;
+        ul.appendChild(li);
+        todo.value = "";
+      }
+
+      function completedTask(button){
+        // console.log(button.parentElement)
+        button.parentElement.classList.toggle('completed');
+      }
+
+      function deleteTask(button){
+        button.parentElement.remove();
+      }
+    </script>
+  </body>
+</html>
