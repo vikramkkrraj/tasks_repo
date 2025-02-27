@@ -4,51 +4,130 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-      }
-      .container {
-        max-width: 400px;
-        margin: auto;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-      }
-      li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px;
-        border-bottom: 1px solid #ccc;
-      }
-      .completed {
-        text-decoration: line-through;
-        color: gray;
-      }
-      button {
-        margin: 5px;
-        padding: 5px 10px;
-      }
-    </style>
   </head>
-  <body>
-    <div class="container">
-      <h2>Task Management App</h2>
-      <input id="taskInput" type="text" placeholder="Enter task" />
-      <button id="addTask">Add Task</button>
-      <ul id="taskList"></ul>
-      <div>
-        <button id="filterAll">All Tasks</button>
-        <button id="filterCompleted">Completed</button>
-        <button id="filterIncomplete">Incomplete</button>
-        <button id="sortTasks">Sort A-Z</button>
-      </div>
-      <p>Total: <span id="totalCount">0</span></p>
-      <p>Completed: <span id="completedCount">0</span></p>
-      <p>Incomplete: <span id="incompleteCount">0</span></p>
-    </div>
-  </body>
+  <body></body>
+  <script>
+    const tasks = [];
+    let id = 1;
+
+    window.onload = () => {
+      const heading = document.createElement("h2");
+      heading.innerText = "Task Management";
+
+      const input = document.createElement("input");
+      input.setAttribute("placeholder", "Enter the task");
+      input.id = "inputtask";
+
+      const addbtn = document.createElement("button");
+      addbtn.innerText = "Add Task";
+
+      const div = document.createElement("div");
+      const completedbtn = document.createElement("button");
+      completedbtn.innerText = "Completed Tasks";
+
+      const incompletedbtn = document.createElement("button");
+      incompletedbtn.innerText = "Incomplete Tasks";
+
+      const alltaskbtn = document.createElement("button");
+      alltaskbtn.innerText = "All Tasks";
+
+      const sortbtn = document.createElement("button");
+      sortbtn.innerText = "Sort Tasks (A-Z)";
+
+      const ul = document.createElement("ul");
+
+      const countersDiv = document.createElement("div");
+      countersDiv.style.marginTop = "10px"; // Adds spacing
+
+      const totalTasks = document.createElement("p");
+      const completedTasks = document.createElement("p");
+      const incompleteTasks = document.createElement("p");
+
+      countersDiv.appendChild(totalTasks);
+      countersDiv.appendChild(completedTasks);
+      countersDiv.appendChild(incompleteTasks);
+
+      div.style.display = "flex";
+      div.style.gap = "10px";
+      div.appendChild(alltaskbtn);
+      div.appendChild(completedbtn);
+      div.appendChild(incompletedbtn);
+      div.appendChild(sortbtn);
+
+      document.body.appendChild(heading);
+      document.body.appendChild(input);
+      document.body.appendChild(addbtn);
+      document.body.appendChild(div);
+      document.body.appendChild(ul); // Task list first
+      document.body.appendChild(countersDiv); // Task count after the list
+
+      addbtn.onclick = () => {
+        if (input.value.trim() !== "") {
+          createTask(input.value.trim());
+          input.value = ""; // Clear input
+        }
+      };
+
+      function createTask(taskName) {
+        tasks.push({ id: id++, task: taskName, complete: false });
+        renderTasks();
+      }
+
+      function renderTasks(filter = "all") {
+        ul.innerHTML = ""; // Clear previous list
+
+        let filteredTasks = tasks;
+        if (filter === "completed") {
+          filteredTasks = tasks.filter((task) => task.complete);
+        } else if (filter === "incompleted") {
+          filteredTasks = tasks.filter((task) => !task.complete);
+        }
+
+        filteredTasks.forEach((task, index) => {
+          const li = document.createElement("li");
+          li.innerText = task.task;
+
+          const checkbox = document.createElement("input");
+          checkbox.setAttribute("type", "checkbox");
+          checkbox.checked = task.complete;
+          checkbox.onchange = () => {
+            task.complete = checkbox.checked;
+            renderTasks(filter);
+          };
+
+          const deletebtn = document.createElement("button");
+          deletebtn.innerText = "Delete";
+          deletebtn.onclick = () => {
+            tasks.splice(index, 1);
+            renderTasks(filter);
+          };
+
+          li.appendChild(checkbox);
+          li.appendChild(deletebtn);
+          ul.appendChild(li);
+        });
+
+        updateCounters();
+      }
+
+      function updateCounters() {
+        totalTasks.innerText = `Total Tasks: ${tasks.length}`;
+        completedTasks.innerText = `Completed: ${
+          tasks.filter((t) => t.complete).length
+        }`;
+        incompleteTasks.innerText = `Incomplete: ${
+          tasks.filter((t) => !t.complete).length
+        }`;
+      }
+
+      alltaskbtn.onclick = ()=> renderTasks("all");
+      completedbtn.onclick = () => renderTasks("completed");
+      incompletedbtn.onclick = ()=> renderTasks("incompleted");
+
+      sortbtn.onclick = () => {
+        tasks.sort((a, b) => a.task.localeCompare(b.task));
+        renderTasks(); // Re-render after sorting
+      };
+    };
+  </script>
 </html>
