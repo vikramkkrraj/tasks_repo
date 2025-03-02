@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Managment</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      .task-card {
+        display: flex;
+        background-color: rgb(166, 210, 195);
+        flex-direction: column;
+        /* gap: 2px; */
+        margin: 20px;
+      }
+      .task-card li {
+        text-decoration: none;
+      }
+  
+    </style>
+  </head>
+  <body>
+
+    <h1>Task Manager Web Application</h1>
+    <input type="text" id="taskName" placeholder="Enter Your Task" />
+    <input type="text" id="description" placeholder="Description" />
+    <input type="date" id="dueDate" />
+    <select id="category">
+      <option value="">Select</option>
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+      <option value="shopping">Shopping</option>
+    </select>
+
+    <button onclick="addTask()">Add Task</button>
+
+    <!-- filter category -->
+    <select id="filterCategory">
+      <option value="">Select</option>
+      <option value="work">Work</option>
+      <option value="personal">Personal</option>
+      <option value="shopping">Shopping</option>
+    </select>
+
+    <!-- completed Tasks -->
+    <select id="filterCompleteTask">
+      <option value="">All</option>
+      <option value="completed">Completed</option>
+      <option value="incompleted">Incompleted</option>
+    </select>
+
+    <!-- filter by data -->
+    <input type="date" id="filterByDate" />
+    <button onclick="applyfilter()">Apply Filter</button>
+
+    <ul id="ul"></ul>
+
+    <div id="taskInfo">
+      <span id="totalTask"> </span>
+      <span id="completedTasks"></span>
+      <span id="pendingTasks"></span>
+    </div>
+
+    <script>
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      //   console.log(tasks);
+      let id = 1;
+
+      const ul = document.getElementById("ul");
+      const taskSummary = document.getElementById("taskInfo");
+
+      
+
+
+      function addTask() {
+        const task = {
+          id: id++,
+          taskInput: document.getElementById("taskName").value,
+          description: document.getElementById("description").value,
+          date: document.getElementById("dueDate").value,
+          category: document.getElementById("category").value,
+          completed: "incompleted",
+        };
+        tasks.push(task);
+
+        document.getElementById("taskName").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("dueDate").value = "";
+        document.getElementById("category").value = "";
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        applyfilter();
+      }
+
+      function applyfilter() {
+        const filterCategory = document.getElementById("filterCategory").value;
+        const filterCompleteTask =
+          document.getElementById("filterCompleteTask").value;
+        const filterByDate = document.getElementById("filterByDate").value;
+
+        console.log(filterCompleteTask);
+
+        const filteredTasks = tasks.filter((task) => {
+          return (
+            (filterCategory === "" || task.category == filterCategory) &&
+            (filterCompleteTask == "" ||
+              task.completed == filterCompleteTask) &&
+            (filterByDate == "" || task.date == filterByDate)
+          );
+        });
+        console.log(filteredTasks);
+
+        display(filteredTasks);
+      }
+
+      function display(filteredTasks) {
+        ul.innerHTML = "";
+
+        if(filteredTasks.length === 0){
+            ul.innerHTML = `<p> NO DATA FOUND TO THIS MATCH!!</p>`
+        }
+
+        filteredTasks.forEach((task) => {
+          const taskCard = document.createElement("div");
+          taskCard.classList.add("task-card");
+          taskCard.innerHTML = `
+                <li> Task Title : ${task.taskInput} <p> Description: ${task.description}</p></li>
+                <p>Due : ${task.date} </p>
+                <p>Category Label : ${task.category}</p>
+                <input type="checkbox" onclick="checkedBox('${task.id}')" id="checkbox" >
+            `;
+          ul.appendChild(taskCard);
+
+          let totalTask = document.getElementById("totalTask");
+          totalTask.innerText = "Total Tasks: " + tasks.length;
+          let completedTask = document.getElementById("completedTasks");
+          completedTask.innerText =
+            "Completed Tasks: " +
+            tasks.filter((task) => task.completed === "completed").length;
+          let pendingTasks = document.getElementById("pendingTasks");
+          pendingTasks.innerText =
+            "Pending Tasks: " +
+            tasks.filter((task) => task.completed == "incompleted").length;
+        });
+      }
+
+      function checkedBox(taskId) {
+        const task = tasks.find((task) => task.id == taskId);
+        console.log(task);
+        if (task.completed == "completed") {
+          task.completed = "incompleted";
+        } else {
+          task.completed = "completed";
+        }
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        applyfilter();
+      }
+
+      applyfilter();
+    </script>
+  </body>
+</html>
