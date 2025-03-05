@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Image Carousel</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      img {
+        width: 600px;
+        height: 400px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .controls {
+        margin-top: 20px;
+      }
+      #slideNumber {
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Random Image Carousel</h2>
+    <div class="container">
+      <img
+        id="image"
+        src="https://picsum.photos/600/400?random"
+        alt="Random Image"
+      />
+      <div class="controls">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+      </div>
+      <p id="slideNumber">Slide: 1</p>
+    </div>
+
+    <script>
+      let currentSlide = 1;
+      let lastClickTime = 0;
+      let clickCount = 0;
+
+      function throttle(fn, delay = 1000) {
+        return (...args) => {
+          const now = Date.now();
+
+          if (now - lastClickTime < delay) {
+            clickCount++;
+            if (clickCount > 3) {
+              alert("Chill chill, loading it!!");
+              return;
+            }
+            return;
+          }
+
+          clickCount = 0; // Reset spam counter
+          lastClickTime = now;
+          fn(...args);
+        };
+      }
+
+      async function changeImage(next = true) {
+        const image = document.getElementById("image");
+        const slideNumber = document.getElementById("slideNumber");
+
+        image.src = "https://picsum.photos/600/400?random=" + Math.random(); // Fetch new image
+        currentSlide += next ? 1 : -1;
+        if (currentSlide < 1) {
+            currentSlide = 1
+        } 
+        slideNumber.textContent = `Slide: ${currentSlide}`;
+      }
+
+      document.getElementById("nextBtn").addEventListener(
+        "click",
+        throttle(() => changeImage(true), 1000)
+      );
+      document.getElementById("prevBtn").addEventListener(
+        "click",
+        throttle(() => changeImage(false), 1000)
+      );
+    </script>
+  </body>
+</html>
