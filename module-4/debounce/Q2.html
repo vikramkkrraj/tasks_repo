@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debouncing</title>
+</head>
+<body style="display: flex; justify-content: center; flex-direction: column; margin-left: 40%; ">
+
+        <div>
+        <h2>Search Movie Name </h2>
+        <input style="padding: 10px;" type="text" id="input" placeholder="Seach Movie Name">
+        </div>
+       
+</body>
+</html>
+<script>
+    const input = document.getElementById('input');
+    
+    const decounce = (fn, delay = 500) => {
+        let timer ;
+
+        return (...args) => {
+           clearTimeout(timer);
+
+           timer = setTimeout(() => {
+                fn(...args);
+            }, delay)
+        }   
+    }
+
+    const handler = async (e) => {
+        const res = await fetch(`https://www.omdbapi.com/?apikey=8e2cd48e&s=${e.target.value}`);
+        const data = await res.json();
+        console.log(data.Search);
+
+        data.Search.forEach((movie) => {
+            const div = document.createElement('div');
+            div.innerText = `${movie.Title}`
+            document.body.appendChild(div);
+        })
+    }
+
+    const debounced = decounce(handler , 500)
+
+    input.addEventListener('input', debounced )
+</script>

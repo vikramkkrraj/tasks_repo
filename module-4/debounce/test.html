@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <script>
+      const input = document.getElementById("input");
+
+      function debounce(fn, delay = 1000) {
+        let timer;
+        return (...args) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            fn(...args);
+          }, delay);
+        };
+      }
+
+      const handler = async (e) => {
+        // console.log(e.target.value);
+        const response = await fetch(
+          `https://dummyjson.com/products/search?q=${e.target.value}`
+        );
+        const data = await response.json();
+        console.log(data.products);
+        console.log("event", e.target.value);
+      };
+
+      const debounced = debounce(handler, 1000);
+    //   console.log(debounced);
+
+      input.addEventListener("input", debounced);
+    </script>
+  </body>
+</html>
