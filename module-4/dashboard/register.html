@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form id="signup">
+        <input type="email" id="email" placeholder="Enter the Email" required>
+        <input type="password" id="password" placeholder="Enter the Password" required>
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>
+
+<script>
+    const firebaseURL  = "https://auth-cbef6-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"
+     
+
+
+
+    document.getElementById('signup').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        const user = { email , password } ;
+        try {
+            const response = await fetch(firebaseURL,
+                {
+                    method : "POST",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    body : JSON.stringify(user)
+                }
+            )
+            if(response.ok) {
+                alert("Signup Successfully!");
+                window.location.href ="./login.html"
+            }
+        } catch (error) {
+            console.log(error);
+            console.error("Error", error)
+        }
+    })
+</script>

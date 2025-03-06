@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="login">
+        <input type="email" id="email" placeholder="Enter the Email" required>
+        <input type="password" id="password" placeholder="Enter the Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="loginStatus"></p>
+</body>
+</html>
+
+<script>
+    const firebaseURL = "https://auth-cbef6-default-rtdb.asia-southeast1.firebasedatabase.app/users.json"
+
+    document.getElementById('login').addEventListener('submit', async(e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const res = await fetch(firebaseURL);
+            const users = await res.json();
+            console.log(users);
+
+            const usersData = Object.entries(users).map(([id,value]) => ( {id,...value}) )
+            console.log(usersData);
+
+            let auth = false
+            for(let user of usersData) {
+             if(user.email == email && user.password == password) {
+                auth = true;
+                sessionStorage.setItem('user',email)
+                window.location.href = 'dashboard.html';
+                break;
+             }
+           }
+    
+           if(!auth) {
+            document.getElementById('loginStatus').innerText = "Invalid email and password";
+           }
+        } catch (error) {
+            console.log(error);
+        }
+    })
+</script>
