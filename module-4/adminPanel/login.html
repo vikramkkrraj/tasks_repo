@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login</title>
+  </head>
+  <body>
+    <form id="login">
+      <input type="email" id="email" placeholder="Enter Email" required />
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        required
+      />
+      <button type="submit">Login</button>
+    </form>
+  </body>
+</html>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+  } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+  } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCs-LegMTVfmMsHh1J_K6wDjdujVcjFHHs",
+    authDomain: "auth-cbef6.firebaseapp.com",
+    databaseURL:
+      "https://auth-cbef6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "auth-cbef6",
+    storageBucket: "auth-cbef6.firebasestorage.app",
+    messagingSenderId: "970321646402",
+    appId: "1:970321646402:web:91510a593be8b9d6732edb",
+    measurementId: "G-X8S7LG6Y7B",
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById("login").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      const userData = await signInWithEmailAndPassword(auth, email, password);
+      console.log(userData.user.uid);
+
+      const user = await getDoc(doc(db,'users',userData.user.uid));
+      if(user.exists()){
+        console.log(user.data())
+        const role = user.data().role;
+        sessionStorage.setItem('role',role);
+        
+        if(role == "admin"){
+            window.location.href = './admin-dashboard.html';
+        }else {
+            window.location.href = './user-dashboard.html'
+        }
+      } else {
+        alert('ncorrect email or password!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>

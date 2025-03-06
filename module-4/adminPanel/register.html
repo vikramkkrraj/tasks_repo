@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Sign Up</h2>
+    <form id="signup">
+      <input type="email" id="email" placeholder="Enter Email" required />
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        required
+      />
+      <select id="role">
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
+      <button id="submit">Submit</button>
+    </form>
+  </body>
+</html>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+  } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+  } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCs-LegMTVfmMsHh1J_K6wDjdujVcjFHHs",
+    authDomain: "auth-cbef6.firebaseapp.com",
+    databaseURL:
+      "https://auth-cbef6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "auth-cbef6",
+    storageBucket: "auth-cbef6.firebasestorage.app",
+    messagingSenderId: "970321646402",
+    appId: "1:970321646402:web:91510a593be8b9d6732edb",
+    measurementId: "G-X8S7LG6Y7B",
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById("signup").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+
+    try {
+      const userData = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(userData.user);
+
+      await setDoc(doc(db, "users", userData.user.uid), {
+        email: userData.user.email,
+        role: role,
+      });
+
+      alert("Sign Up Successful!");
+      window.location.href = "login.html";
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>
