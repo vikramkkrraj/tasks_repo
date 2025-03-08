@@ -13,4 +13,5 @@ A web application that fetches data from the Rick and Morty API to display chara
 - Managing character detail navigation
 
 ## Deployment
-Deployed Application: [Deployed LINK]
+Deployed Application: https://vermillion-croissant-990a15.netlify.app/
+
