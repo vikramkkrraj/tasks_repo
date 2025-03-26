@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">Hello from dom!</div>
+    <script type="text/babel" >
+
+        function Contact () {
+            return (
+                <>
+                <h1 >Welcome to Contact</h1>
+                </>
+            )
+        }
+
+        const About = () => {
+            return (
+                <>
+                <h1>Welcome to About Page.</h1>
+                </>
+            )
+        }
+
+        const Home = () => {
+            return (
+                <>
+                <h1 >Welcome to Home Page</h1>
+                </>
+            )
+        }
+        const Navbar = ( {setPage} ) => {
+            return (
+                <>
+                <nav >
+                    <button onClick={() => setPage("Home")}  style={{padding : '10px', margin: '10px'}} >Home</button>
+                    <button onClick={() => setPage("About")} style={{padding : '10px', margin: '10px'}}>About</button>
+                    <button onClick={() => setPage("Contact")} style={{padding : '10px', margin: '10px'}}>Contact</button>
+                </nav>
+                </>
+            )
+        }
+
+        const App = () => {
+            const [activePage , setActivePage] = React.useState("Home");
+
+            return (
+                <>
+                 <div style={{margin : '50px'}}>
+                    <Navbar setPage={setActivePage} />
+                    <div  >
+                        {activePage === "Home" && <Home />}
+                        {activePage === "About" && <About />}
+                        {activePage === "Contact" && <Contact />}
+                    </div>
+                </div>
+                </>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+    </script>
+</body>
+</html>
