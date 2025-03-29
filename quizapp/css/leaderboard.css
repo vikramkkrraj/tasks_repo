@@ -1,0 +1,109 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Leaderboard Container */
+.leaderboard-container {
+    background: rgba(255, 255, 255, 0.15);
+    /* backdrop-filter: blur(10px); */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.leaderboard-container:hover {
+    transform: scale(1.02);
+}
+
+/* Leaderboard Title */
+.leaderboard-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table Header */
+thead {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Table Row */
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+}
+
+/* Button Styling */
+button {
+    background: #ff7eb3;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #ff5e9c;
+    transform: scale(1.05);
+}
+
+/* Responsive Table */
+@media (max-width: 600px) {
+    .leaderboard-container {
+        width: 95%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+

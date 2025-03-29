@@ -1,0 +1,96 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Profile Container */
+.profile-container {
+    background: rgba(255, 255, 255, 0.15);
+    /* backdrop-filter: blur(10px); */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.profile-container:hover {
+    transform: scale(1.02);
+}
+
+/* Profile Title */
+.profile-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+/* Profile Details */
+#profile-details {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#profile-details p {
+    font-size: 16px;
+    margin: 8px 0;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Remove border from last item */
+#profile-details p:last-child {
+    border-bottom: none;
+}
+
+/* Button Styling */
+button {
+    background: #ff7eb3;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #ff5e9c;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .profile-container {
+        width: 95%;
+    }
+
+    #profile-details p {
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+    }
+}

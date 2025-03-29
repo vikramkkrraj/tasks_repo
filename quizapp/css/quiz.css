@@ -1,0 +1,135 @@
+/* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212; /* Dark Theme */
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Quiz Container */
+#quiz-container {
+    width: 50%;
+    margin: auto;
+    background: #1e1e1e; /* Dark Card Style */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Timer */
+#timer {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f39c12; /* Yellowish Timer */
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    background: #333;
+    border-radius: 8px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 10px;
+    background: #4CAF50;
+    transition: width 0.4s ease-in-out;
+}
+
+/* Questions */
+h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Options */
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background: #262626;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.option:hover {
+    background: #333;
+}
+
+.option input {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Correct & Incorrect Feedback */
+.correct {
+    background: #27ae60 !important; /* Green */
+    color: white !important;
+    border: 2px solid #1e8449;
+}
+
+.incorrect {
+    background: #e74c3c !important; /* Red */
+    color: white !important;
+    border: 2px solid #c0392b;
+}
+
+/* Pagination Buttons */
+.pagination-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#prev-btn {
+    background: #555;
+    color: white;
+}
+
+#next-btn {
+    background: #007bff;
+    color: white;
+}
+
+#submit-btn {
+    background: #f39c12;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+/* Button Hover Effects */
+button:hover {
+    transform: scale(1.05);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
