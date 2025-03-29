@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uncontrolled Component</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        hello, from dom
+    </div>
+</body>
+</html>
+<script type="text/babel">
+
+    const UncontrolledComp = () => {
+        const inputRef = React.useRef(null);
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            console.log(inputRef);
+            alert(`Enter Text : ${inputRef.current.value}`)
+            inputRef.current.value = ""
+        }
+
+        return (
+            <form onSubmit={handleSubmit} >
+                <label>
+            
+                    Enter Text : {" "}
+                     <input type="text"  ref={inputRef}  placeholder ="Type Something..." />
+                    </label>
+                    <button type="submit">Submit</button>
+            </form>
+        )
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<UncontrolledComp />)
+</script>

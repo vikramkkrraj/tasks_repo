@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Email Form</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            margin: 5px 10px;
+            padding: 5px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            display: block;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function EmailForm() {
+            const [emails, setEmails] = React.useState([{ id: 1, value: '', isValid: true }]);
+
+            // Function to handle email input changes
+            const handleEmailChange = (id, value) => {
+                setEmails((prevEmails) =>
+                    prevEmails.map((email) =>
+                        email.id === id ? { ...email, value, isValid: validateEmail(value) } : email
+                    )
+                );
+            };
+
+            // Function to validate email
+            const validateEmail = (email) => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            };
+
+            // Function to add a new email field
+            const addEmailField = () => {
+                setEmails([...emails, { id: emails.length + 1, value: '', isValid: true }]);
+            };
+
+            return (
+                <div>
+                    <h2>Add Multiple Emails</h2>
+                    {emails.map((email) => (
+                        <div key={email.id}>
+                            <input
+                                type="email"
+                                value={email.value}
+                                placeholder="Enter email"
+                                onChange={(e) => handleEmailChange(email.id, e.target.value)}
+                            />
+                            {!email.isValid && email.value && <span className="error">Invalid email format</span>}
+                        </div>
+                    ))}
+                    <button onClick={addEmailField}>Add Email</button>
+
+                    <h3>Entered Emails:</h3>
+                    <ul>
+                        {emails
+                            .filter((email) => email.value) // Only show valid emails
+                            .map((email) => (
+                                <li key={email.id}>{email.value}</li>
+                            ))}
+                    </ul>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<EmailForm />);
+    </script>
+</body>
+</html>
