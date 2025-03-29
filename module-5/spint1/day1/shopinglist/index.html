@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      /* General Styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* Main Container */
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        text-align: center;
+      }
+
+      /* Input Field */
+      input {
+        width: 50%;
+        padding: 8px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        font-size: 16px;
+      }
+
+      /* Buttons */
+      button {
+        padding: 8px 12px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+        font-size: 14px;
+      }
+
+      /* Add Button */
+      .add-btn {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .add-btn:hover {
+        background-color: #218838;
+      }
+
+      /* Clear All Button */
+      .clear-btn {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .clear-btn:hover {
+        background-color: #c82333;
+      }
+
+      /* List Styling */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 10px;
+      }
+
+      li {
+        background: #e9ecef;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+      }
+
+      /* Remove Button */
+      .remove-btn {
+        background-color: #ffc107;
+        color: black;
+      }
+
+      .remove-btn:hover {
+        background-color: #e0a800;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">hello, from dom</div>
+  </body>
+</html>
+<script type="text/babel">
+  const Lists = ({ list, setList }) => {
+    const removeHandler = (index) => {
+      setList((prevlist) => prevlist.filter((item, i) => i != index));
+    };
+    return (
+      <>
+        <div className="container">
+          <ul>
+            {list?.map((item, i) => {
+              return (
+                <li key={i}>
+                  {item} {"   "}{" "}
+                  <button onClick={() => removeHandler(i)}>Remove</button>{" "}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </>
+    );
+  };
+  const App = () => {
+    const [item, setItem] = React.useState("");
+    const [list, setList] = React.useState([]);
+    const handlerInput = (e) => {
+      setItem(e.target.value);
+    };
+    const addHandler = () => {
+      if (item == "" || null || undefined) {
+        alert("Enter the Item You want to add in the List");
+        return;
+      }
+      setList([...list, item]);
+      setItem("");
+    };
+    const clearHandler = () => {
+      setList([]);
+    };
+
+    return (
+      <>
+        <label>
+          {" "}
+          Add Items in List{" "}
+          <input
+            type="text"
+            value={item}
+            placeholder="Add item (Apples - 2 kg)"
+            onChange={handlerInput}
+          />
+          <button className="add-btn" onClick={addHandler}>
+            Add Item
+          </button>
+          <button className="clear-btn" onClick={clearHandler}>
+            Clear All
+          </button>
+          <Lists list={list} setList={setList} />
+        </label>
+      </>
+    );
+  };
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
