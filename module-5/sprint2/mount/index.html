@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Component Mount/Unmount</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function LoggingComponent() {
+            useEffect(() => {
+                console.log("Component Mounted");
+
+                return () => {
+                    console.log("Component Unmounted");
+                };
+            }, []);
+
+            return <div>Check the console for mount/unmount messages.</div>;
+        }
+
+        function App() {
+            const [visible, setVisible] = useState(true);
+
+            return (
+                <div>
+                    <button onClick={() => setVisible(!visible)}>
+                        {visible ? "Hide Component" : "Show Component"}
+                    </button>
+                    {visible && <LoggingComponent />}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+</html>

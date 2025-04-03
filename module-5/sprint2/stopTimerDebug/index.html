@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Timer</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useRef } = React;
+
+        function Timer() {
+            const [time, setTime] = useState(10);
+            const intervalId = useRef(null);
+
+            const startTimer = () => {
+                if (!intervalId.current) { 
+                    intervalId.current = setInterval(() => {
+                        setTime((prevTime) => {
+                            if (prevTime === 0) {
+                                clearInterval(intervalId.current);
+                                intervalId.current = null;
+                                return 0;
+                            }
+                            return prevTime - 1;
+                        });
+                    }, 1000);
+                }
+            };
+
+            const stopTimer = () => {
+                clearInterval(intervalId.current);
+                intervalId.current = null; 
+            };
+
+            const resetTimer = () => {
+                clearInterval(intervalId.current);
+                intervalId.current = null;
+                setTime(10);
+            };
+
+            return (
+                <div>
+                    <h1>Time Left: {time}</h1>
+                    <button onClick={startTimer}>Start</button>
+                    <button onClick={stopTimer}>Stop</button>
+                    <button onClick={resetTimer}>Reset</button>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<Timer />);
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React useEffect Logger</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function StateLogger() {
+            const [value, setValue] = useState(0);
+
+            useEffect(() => {
+                console.log(`State updated: ${value}`);
+            }, [value]); // Runs whenever 'value' changes
+
+            const updateState = () => {
+                setValue(Math.floor(Math.random() * 100)); // Generates a random number (0-99)
+            };
+
+            return (
+                <div>
+                    <h1>Current Value: {value}</h1>
+                    <button onClick={updateState}>Generate Random Number</button>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<StateLogger />);
+    </script>
+</body>
+</html>

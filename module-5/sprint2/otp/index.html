@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React OTP Input</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .otp-container {
+            display: flex;
+            gap: 10px;
+        }
+        .otp-input {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useRef, useState } = React;
+
+        function OTPInput() {
+            const inputRefs = useRef([]);
+            const [otp, setOtp] = useState(["", "", "", ""]);
+
+            const handleChange = (index, e) => {
+                const value = e.target.value;
+                if (!/^\d?$/.test(value)) return; // Allow only digits (0-9)
+
+                const newOtp = [...otp];
+                newOtp[index] = value;
+                setOtp(newOtp);
+
+                // Move to the next field if a digit is entered
+                if (value && index < 3) {
+                    inputRefs.current[index + 1].focus();
+                }
+            };
+
+            const handleKeyDown = (index, e) => {
+                if (e.key === "Backspace" && !otp[index] && index > 0) {
+                    inputRefs.current[index - 1].focus();
+                }
+            };
+
+            return (
+                <div className="otp-container">
+                    {otp.map((digit, index) => (
+                        <input
+                            key={index}
+                            ref={(el) => (inputRefs.current[index] = el)}
+                            type="text"
+                            maxLength="1"
+                            className="otp-input"
+                            value={digit}
+                            onChange={(e) => handleChange(index, e)}
+                            onKeyDown={(e) => handleKeyDown(index, e)}
+                        />
+                    ))}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<OTPInput />);
+    </script>
+</body>
+</html>
