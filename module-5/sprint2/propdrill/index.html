@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Props Drilling Example</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      input {
+        padding: 8px;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      .box {
+        border: 1px solid #ccc;
+        padding: 12px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+      function App() {
+        const [username, setUsername] = React.useState("");
+
+        return (
+          <div className="box">
+            <h1>Props Drilling Demo</h1>
+            <label>
+              Enter your name:
+              <br />
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </label>
+
+            <Main username={username} />
+          </div>
+        );
+      }
+
+      
+      function Main({ username }) {
+        return (
+          <div className="box">
+            <h2>Main Component</h2>
+            <BottomMain username={username} />
+          </div>
+        );
+      }
+
+      function BottomMain({ username }) {
+        return (
+          <div className="box">
+            <h3>BottomMain Component</h3>
+            <BottomMainRight username={username} />
+          </div>
+        );
+      }
+
+      
+      function BottomMainRight({ username }) {
+        return (
+          <div className="box">
+            <h4>BottomMainRight Component</h4>
+            <p>Hello, <strong>{username || "Guest"}</strong>!</p>
+          </div>
+        );
+      }
+
+  
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

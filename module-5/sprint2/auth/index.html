@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Auth Context Example</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .navbar,
+      .footer {
+        padding: 10px;
+        background-color: #f0f0f0;
+        margin-bottom: 10px;
+      }
+      .main {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      button {
+        padding: 8px 14px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const AuthContext = React.createContext();
+
+      function AuthProvider({ children }) {
+        const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+        const toggleAuth = () => setIsLoggedIn((prev) => !prev);
+
+        return (
+          <AuthContext.Provider value={{ isLoggedIn, toggleAuth }}>
+            {children}
+          </AuthContext.Provider>
+        );
+      }
+
+      function Navbar() {
+        const { isLoggedIn, toggleAuth } = React.useContext(AuthContext);
+
+        return (
+          <div className="navbar">
+            <button onClick={toggleAuth}>
+              {isLoggedIn ? "Logout" : "Login"}
+            </button>
+          </div>
+        );
+      }
+
+      function Main() {
+        const { isLoggedIn } = React.useContext(AuthContext);
+
+        return (
+          <div className="main">
+            <h2>
+              {isLoggedIn ? "You are logged in!" : "You are not logged in."}
+            </h2>
+          </div>
+        );
+      }
+
+      function Footer() {
+        const { isLoggedIn } = React.useContext(AuthContext);
+
+        return (
+          <div className="footer">
+            {isLoggedIn ? "Welcome, User" : "Please log in"}
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <Navbar />
+            <Main />
+            <Footer />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      );
+    </script>
+  </body>
+</html>
