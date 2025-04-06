@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Router CDN Example</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js"></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      nav a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      console.log(window.ReactRouterDOM);
+      const { BrowserRouter, Routes, Route, Link } = window.ReactRouterDOM;
+
+      const Home = () => <h1>🏠 Welcome to Home Page</h1>;
+      const About = () => <h1>ℹ️ About Us</h1>;
+      const Contact = () => <h1>📞 Contact Page</h1>;
+
+      const App = () => (
+        <BrowserRouter>
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </BrowserRouter>
+      );
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

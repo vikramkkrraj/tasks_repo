@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>React Router - Users with useParams</title>
+
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- React Router DOM -->
+  <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js" crossorigin></script>
+
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    nav a {
+      margin-right: 10px;
+      text-decoration: none;
+      color: blue;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const {
+      BrowserRouter,
+      Routes,
+      Route,
+      Link,
+      useParams
+    } = window.ReactRouterDOM;
+
+    const USERS = [
+      { id: 1, name: 'Alice' },
+      { id: 2, name: 'Bob' },
+      { id: 3, name: 'Charlie' }
+    ];
+
+    const Users = () => (
+      <div>
+        <h2>User List</h2>
+        <ul>
+          {USERS.map(user => (
+            <li key={user.id}>
+              <Link to={`/users/${user.id}`}>{user.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+
+    const UserDetails = () => {
+      const { id } = useParams();
+      const user = USERS.find(u => u.id.toString() === id);
+
+      return (
+        <div>
+          {user ? (
+            <h2>Details of {user.name}</h2>
+          ) : (
+            <h2>User not found.</h2>
+          )}
+        </div>
+      );
+    };
+
+    const App = () => (
+      <div>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/users">Users</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<h1>🏠 Welcome Home</h1>} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<UserDetails />} />
+        </Routes>
+      </div>
+    );
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+  </script>
+</body>
+</html>
