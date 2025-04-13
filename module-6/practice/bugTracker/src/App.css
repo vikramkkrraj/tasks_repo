@@ -1,0 +1,185 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+}
+
+.navbar li {
+  margin-right: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+.navbar a:hover {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.upload-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.filters-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.time-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.filter-actions button {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-actions button:hover {
+  background-color: #45a049;
+}
+
+.search-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-container select,
+.search-container input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-container button {
+  padding: 8px 15px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: #0b7dda;
+}
+
+.log-table-container {
+  overflow-x: auto;
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.log-table th,
+.log-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.log-table th {
+  background-color: #f2f2f2;
+  position: sticky;
+  top: 0;
+}
+
+.log-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Severity-based row coloring */
+.log-table tr.severity-critical {
+  background-color: #ffdddd;
+}
+
+.log-table tr.severity-high {
+  background-color: #ffe6cc;
+}
+
+.log-table tr.severity-medium {
+  background-color: #ffffcc;
+}
+
+.log-table tr.severity-low {
+  background-color: #e6ffe6;
+}
+
+.welcome-message {
+  text-align: center;
+  padding: 50px;
+}
+
+.welcome-message h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
