@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book Library App (React + Redux CDN)</title>
+  <style>
+    body { font-family: Arial; padding: 2rem; max-width: 800px; margin: auto; }
+    input, select, button { padding: 0.5rem; margin: 0.25rem; }
+    .book { border: 1px solid #ccc; padding: 1rem; margin: 0.5rem 0; border-radius: 8px; }
+    .read { background: #e0ffe0; }
+    .controls { margin-top: 1rem; }
+    .responsive { display: flex; flex-wrap: wrap; gap: 1rem; }
+    @media (max-width: 600px) {
+      .responsive { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- CDN Imports -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/redux@4.2.1/dist/redux.min.js"></script>
+  <script src="https://unpkg.com/react-redux@8.1.1/dist/react-redux.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- App Script -->
+  <script type="text/babel">
+    const { createStore, combineReducers } = Redux;
+    const { Provider, connect } = ReactRedux;
+
+    // Actions
+    const ADD_BOOK = 'ADD_BOOK';
+    const DELETE_BOOK = 'DELETE_BOOK';
+    const TOGGLE_READ = 'TOGGLE_READ';
+    const EDIT_BOOK = 'EDIT_BOOK';
+    const SET_FILTER = 'SET_FILTER';
+
+    // Action Creators
+    const addBook = (book) => ({ type: ADD_BOOK, payload: book });
+    const deleteBook = (id) => ({ type: DELETE_BOOK, payload: id });
+    const toggleRead = (id) => ({ type: TOGGLE_READ, payload: id });
+    const editBook = (book) => ({ type: EDIT_BOOK, payload: book });
+    const setFilter = (filter) => ({ type: SET_FILTER, payload: filter });
+
+    // Book Reducer
+    const booksInitial = [];
+    const booksReducer = (state = booksInitial, action) => {
+      switch (action.type) {
+        case ADD_BOOK:
+          return [...state, action.payload];
+        case DELETE_BOOK:
+          return state.filter(b => b.id !== action.payload);
+        case TOGGLE_READ:
+          return state.map(b => b.id === action.payload ? { ...b, read: !b.read } : b);
+        case EDIT_BOOK:
+          return state.map(b => b.id === action.payload.id ? { ...action.payload } : b);
+        default:
+          return state;
+      }
+    };
+
+    // Filter Reducer
+    const filtersReducer = (state = { author: '', genre: '', status: 'all' }, action) => {
+      if (action.type === SET_FILTER) {
+        return { ...state, ...action.payload };
+      }
+      return state;
+    };
+
+    const rootReducer = combineReducers({
+      books: booksReducer,
+      filters: filtersReducer
+    });
+
+    const store = createStore(rootReducer);
+
+    // Components
+
+    const BookForm = ({ addBook }) => {
+      const [title, setTitle] = React.useState('');
+      const [author, setAuthor] = React.useState('');
+      const [genre, setGenre] = React.useState('');
+
+      const handleSubmit = () => {
+        if (title && author && genre) {
+          addBook({ id: Date.now(), title, author, genre, read: false });
+          setTitle(''); setAuthor(''); setGenre('');
+        }
+      };
+
+      return (
+        <div>
+          <h2>Add Book</h2>
+          <div className="responsive">
+            <input placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
+            <input placeholder="Author" value={author} onChange={e => setAuthor(e.target.value)} />
+            <input placeholder="Genre" value={genre} onChange={e => setGenre(e.target.value)} />
+            <button onClick={handleSubmit}>Add</button>
+          </div>
+        </div>
+      );
+    };
+
+    const BookList = ({ books, toggleRead, deleteBook, editBook }) => {
+      const [editId, setEditId] = React.useState(null);
+      const [editData, setEditData] = React.useState({});
+
+      const startEdit = (book) => {
+        setEditId(book.id);
+        setEditData({ ...book });
+      };
+
+      const saveEdit = () => {
+        editBook(editData);
+        setEditId(null);
+      };
+
+      return (
+        <div>
+          <h2>Book List</h2>
+          {books.length === 0 && <p>No books available.</p>}
+          {books.map(book => (
+            <div className={`book ${book.read ? 'read' : ''}`} key={book.id}>
+              {editId === book.id ? (
+                <>
+                  <input value={editData.title} onChange={e => setEditData({ ...editData, title: e.target.value })} />
+                  <input value={editData.author} onChange={e => setEditData({ ...editData, author: e.target.value })} />
+                  <input value={editData.genre} onChange={e => setEditData({ ...editData, genre: e.target.value })} />
+                  <button onClick={saveEdit}>Save</button>
+                </>
+              ) : (
+                <>
+                  <strong>{book.title}</strong> by {book.author} - <em>{book.genre}</em><br />
+                  Status: {book.read ? 'Read' : 'Unread'}
+                  <div className="controls">
+                    <button onClick={() => toggleRead(book.id)}>Toggle Read</button>
+                    <button onClick={() => startEdit(book)}>Edit</button>
+                    <button onClick={() => deleteBook(book.id)}>Delete</button>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    const Filters = ({ setFilter }) => {
+      return (
+        <div className="responsive" style={{ marginBottom: '1rem' }}>
+          <input placeholder="Author Filter" onChange={e => setFilter({ author: e.target.value })} />
+          <input placeholder="Genre Filter" onChange={e => setFilter({ genre: e.target.value })} />
+          <select onChange={e => setFilter({ status: e.target.value })}>
+            <option value="all">All</option>
+            <option value="read">Read</option>
+            <option value="unread">Unread</option>
+          </select>
+        </div>
+      );
+    };
+
+    // Connecting to Redux
+
+    const mapStateToProps = (state) => {
+      let filtered = state.books;
+      const { author, genre, status } = state.filters;
+
+      if (author) filtered = filtered.filter(b => b.author.toLowerCase().includes(author.toLowerCase()));
+      if (genre) filtered = filtered.filter(b => b.genre.toLowerCase().includes(genre.toLowerCase()));
+      if (status === 'read') filtered = filtered.filter(b => b.read);
+      if (status === 'unread') filtered = filtered.filter(b => !b.read);
+
+      return { books: filtered };
+    };
+
+    const mapDispatch = {
+      addBook, deleteBook, toggleRead, editBook, setFilter
+    };
+
+    const ConnectedForm = connect(null, { addBook })(BookForm);
+    const ConnectedList = connect(mapStateToProps, mapDispatch)(BookList);
+    const ConnectedFilters = connect(null, { setFilter })(Filters);
+
+    const App = () => (
+      <div>
+        <h1>📚 Book Library</h1>
+        <ConnectedForm />
+        <ConnectedFilters />
+        <ConnectedList />
+      </div>
+    );
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<Provider store={store}><App /></Provider>);
+  </script>
+</body>
+</html>

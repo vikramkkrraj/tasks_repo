@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redux Counter App (JSX + Babel)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+      font-size: 1rem;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      text-align: left;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React, ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- Redux & React-Redux -->
+  <script src="https://unpkg.com/redux@4.2.1/dist/redux.min.js"></script>
+  <script src="https://unpkg.com/react-redux@8.0.5/dist/react-redux.min.js"></script>
+
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- App Code (type="text/babel" enables JSX support) -->
+  <script type="text/babel">
+    const { createStore } = Redux;
+    const { Provider, useSelector, useDispatch } = ReactRedux;
+
+    // Action Types
+    const INCREMENT = 'INCREMENT';
+    const DECREMENT = 'DECREMENT';
+
+    // Action Creators
+    const increment = () => ({ type: INCREMENT });
+    const decrement = () => ({ type: DECREMENT });
+
+    // Reducer
+    const initialState = { count: 0 };
+
+    const counterReducer = (state = initialState, action) => {
+      switch (action.type) {
+        case INCREMENT:
+          return { ...state, count: state.count + 1 };
+        case DECREMENT:
+          return { ...state, count: state.count - 1 };
+        default:
+          return state;
+      }
+    };
+
+    // Store
+    const store = createStore(counterReducer);
+
+    // App Component
+    const App = () => {
+      const state = useSelector(state => state);
+      const dispatch = useDispatch();
+
+      return (
+        <div>
+          <h1>Redux Counter App</h1>
+          <h2>Counter: {state.count}</h2>
+          <button onClick={() => dispatch(increment())}>Increment</button>
+          <button onClick={() => dispatch(decrement())}>Decrement</button>
+
+          <h3>State (Stringified)</h3>
+          <pre>{JSON.stringify(state, null, 2)}</pre>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  </script>
+</body>
+</html>

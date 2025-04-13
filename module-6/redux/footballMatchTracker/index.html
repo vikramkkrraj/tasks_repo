@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Football Match Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- React, Redux & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/redux@4.2.1/dist/redux.js"></script>
+  <script src="https://unpkg.com/react-redux@8.1.1/dist/react-redux.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f2f2f2;
+    }
+    .match-card {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    input {
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
+    @media (min-width: 600px) {
+      .match-card {
+        width: calc(50% - 1rem);
+      }
+    }
+    @media (min-width: 900px) {
+      .match-card {
+        width: calc(33.333% - 1rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { createStore, combineReducers, applyMiddleware } = Redux;
+    const { Provider, useSelector, useDispatch } = ReactRedux;
+
+    // Initial State
+    const initialMatchState = {
+      isLoading: false,
+      isError: false,
+      footballMatches: [],
+      favorites: [],
+    };
+
+    // Actions
+    const FETCH_MATCHES = "FETCH_MATCHES";
+    const FETCH_SUCCESS = "FETCH_SUCCESS";
+    const FETCH_FAILURE = "FETCH_FAILURE";
+    const TOGGLE_FAVORITE = "TOGGLE_FAVORITE";
+
+    // Action Creators
+    const fetchMatches = () => ({ type: FETCH_MATCHES });
+    const fetchSuccess = (data) => ({ type: FETCH_SUCCESS, payload: data });
+    const fetchFailure = () => ({ type: FETCH_FAILURE });
+    const toggleFavorite = (id) => ({ type: TOGGLE_FAVORITE, payload: id });
+
+    // Reducer
+    const matchReducer = (state = initialMatchState, action) => {
+      switch (action.type) {
+        case FETCH_MATCHES:
+          return { ...state, isLoading: true, isError: false };
+        case FETCH_SUCCESS:
+          return { ...state, isLoading: false, footballMatches: action.payload };
+        case FETCH_FAILURE:
+          return { ...state, isLoading: false, isError: true };
+        case TOGGLE_FAVORITE:
+          const isFav = state.favorites.includes(action.payload);
+          return {
+            ...state,
+            favorites: isFav
+              ? state.favorites.filter(id => id !== action.payload)
+              : [...state.favorites, action.payload],
+          };
+        default:
+          return state;
+      }
+    };
+
+    // Combine Reducers
+    const rootReducer = combineReducers({
+      matchState: matchReducer
+    });
+
+    // Store
+    const store = createStore(rootReducer);
+
+    // App Component
+    function App() {
+      const { isLoading, isError, footballMatches, favorites } = useSelector(state => state.matchState);
+      const dispatch = useDispatch();
+      const [search, setSearch] = React.useState("");
+
+      React.useEffect(() => {
+        dispatch(fetchMatches());
+        fetch("https://jsonmock.hackerrank.com/api/football_matches?page=2")
+          .then(res => res.json())
+          .then(data => dispatch(fetchSuccess(data.data)))
+          .catch(() => dispatch(fetchFailure()));
+      }, []);
+
+      const filteredMatches = footballMatches.filter(match => {
+        const s = search.toLowerCase();
+        return (
+          match.competition.toLowerCase().includes(s) ||
+          match.team1.toLowerCase().includes(s) ||
+          match.team2.toLowerCase().includes(s) ||
+          match.venue.toLowerCase().includes(s)
+        );
+      });
+
+      return (
+        <div>
+          <h1>⚽ Football Match Tracker</h1>
+          <input
+            type="text"
+            placeholder="Search by team, venue, or competition..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          {isLoading && <p>Loading matches...</p>}
+          {isError && <p style={{color: 'red'}}>Failed to load matches.</p>}
+
+          <div className="flex">
+            {filteredMatches.map((match, index) => (
+              <div className="match-card" key={index}>
+                <div className="match-header">
+                  <strong>{match.team1} vs {match.team2}</strong>
+                  <button onClick={() => dispatch(toggleFavorite(index))}>
+                    {favorites.includes(index) ? "★" : "☆"}
+                  </button>
+                </div>
+                <p><strong>Competition:</strong> {match.competition}</p>
+                <p><strong>Venue:</strong> {match.venue}</p>
+                <p><strong>Date:</strong> {match.date}</p>
+                <p><strong>Score:</strong> {match.team1goals} - {match.team2goals}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+  </script>
+</body>
+</html>
