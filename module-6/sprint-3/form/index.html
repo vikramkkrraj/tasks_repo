@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Custom Hook Example</title>
+    <!-- React & Babel CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 2rem;
+      }
+      form {
+        margin-bottom: 2rem;
+      }
+      input,
+      button {
+        margin: 0.5rem;
+        padding: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      function useForm(initialValues) {
+        const [values, setValues] = useState(initialValues);
+
+        const handleChange = (e) => {
+          const { name, value } = e.target;
+          setValues((prev) => ({ ...prev, [name]: value }));
+        };
+
+        const resetForm = () => setValues(initialValues);
+
+        return { values, handleChange, resetForm };
+      }
+
+      function LoginForm() {
+        const { values, handleChange, resetForm } = useForm({
+          username: "",
+          password: "",
+        });
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          alert(`Logging in as ${values.username}`);
+          resetForm();
+        };
+
+        return (
+          <form onSubmit={handleSubmit}>
+            <h2>Login Form</h2>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={values.username}
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={values.password}
+              onChange={handleChange}
+            />
+            <button type="submit">Login</button>
+          </form>
+        );
+      }
+
+      function ContactForm() {
+        const { values, handleChange, resetForm } = useForm({
+          name: "",
+          email: "",
+        });
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          alert(`Message from ${values.name} (${values.email})`);
+          resetForm();
+        };
+
+        return (
+          <form onSubmit={handleSubmit}>
+            <h2>Contact Form</h2>
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={values.name}
+              onChange={handleChange}
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              value={values.email}
+              onChange={handleChange}
+            />
+            <button type="submit">Send</button>
+          </form>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <LoginForm />
+            <ContactForm />
+          </div>
+        );
+      }
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

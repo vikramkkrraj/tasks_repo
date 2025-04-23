@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React App - useMemo, useCallback, React.memo</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 1rem;
+      }
+      .post {
+        padding: 1rem;
+        margin: 1rem 0;
+        color: white;
+        border-radius: 10px;
+      }
+      input {
+        margin: 0.5rem;
+        padding: 0.5rem;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        margin: 0.5rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>React Performance Optimization</h1>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useCallback, useMemo } = React;
+
+      const Post = React.memo(function Post({ post, toggleVerify }) {
+        const bgColor = useMemo(() => {
+          return `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+        }, [post.id]);
+
+        console.log("Rendering Post ID:", post.id);
+
+        return (
+          <div className="post" style={{ backgroundColor: bgColor }}>
+            <h3>{post.title}</h3>
+            <p>{post.body}</p>
+            <button onClick={() => toggleVerify(post.id)}>
+              {post.verifyPost ? "Verified ✅" : "Verify"}
+            </button>
+          </div>
+        );
+      });
+
+      function App() {
+        const [timer, setTimer] = useState(0);
+        const [title, setTitle] = useState("");
+        const [body, setBody] = useState("");
+        const [posts, setPosts] = useState([]);
+
+        // Timer effect
+        useEffect(() => {
+          const interval = setInterval(() => {
+            setTimer((prev) => prev + 1);
+          }, 1000);
+          return () => clearInterval(interval);
+        }, []);
+
+        const addPost = () => {
+          if (!title || !body) return;
+          const newPost = {
+            id: Date.now(),
+            title,
+            body,
+            verifyPost: false,
+          };
+          setPosts((prev) => [...prev, newPost]);
+          setTitle("");
+          setBody("");
+        };
+
+        const toggleVerify = useCallback((id) => {
+          setPosts((prev) =>
+            prev.map((post) =>
+              post.id === id ? { ...post, verifyPost: !post.verifyPost } : post
+            )
+          );
+        }, []);
+
+        return (
+          <div>
+            <h2>Timer: {timer}s</h2>
+            <input
+              placeholder="Post Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <input
+              placeholder="Post Body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+            />
+            <button onClick={addPost}>Add Post</button>
+
+            {posts.map((post) => (
+              <Post key={post.id} post={post} toggleVerify={toggleVerify} />
+            ))}
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

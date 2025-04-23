@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>useToggleItems Hook</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 2rem;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        margin-top: 1rem;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      function useToggleItems(initialValue, initialPosition = 0) {
+        const [index, setIndex] = useState(initialPosition);
+
+        const toggleState = () => {
+          setIndex((prevIndex) => (prevIndex + 1) % initialValue.length);
+        };
+
+        return [initialValue[index], toggleState];
+      }
+
+      function App() {
+        const [state, toggleState] = useToggleItems(["A", "B", "C"], 1); // Start from "B"
+
+        return (
+          <div>
+            <h2>Current Item: {state}</h2>
+            <button onClick={toggleState}>Toggle Item</button>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
