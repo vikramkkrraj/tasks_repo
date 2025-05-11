@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+
+# Logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# Build directories (if any)
+dist/
+build/
+
+# IDE settings (Optional)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Database files (Optional, if you are storing data in db.json)
+db.json
