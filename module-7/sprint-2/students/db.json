@@ -1,0 +1,16 @@
+{
+  "students": [
+    {
+      "name": "Ajay Kumar",
+      "course": "Backend developer",
+      "batch": "April 2025",
+      "id": 1
+    },
+    {
+      "name": "Aarav Sharma",
+      "course": "Full Stack Web",
+      "batch": "April 2025",
+      "id": 2
+    }
+  ]
+}
