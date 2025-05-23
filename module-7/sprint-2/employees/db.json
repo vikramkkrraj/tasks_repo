@@ -1,0 +1,20 @@
+{
+  "employees": [
+    {
+      "name": "alice",
+      "position": "developer",
+      "department": "Frontend developer",
+      "salary": 50000,
+      "status": "single",
+      "id": 1
+    },
+    {
+      "name": "bob",
+      "position": "developer",
+      "department": "Backend developer",
+      "salary": 60000,
+      "status": "single",
+      "id": 2
+    }
+  ]
+}
