@@ -1,0 +1,47 @@
+[
+  {
+    "recipe_id": 1,
+    "name": "Spaghetti Carbonara",
+    "ingredients": ["Spaghetti", "Eggs", "Pancetta", "Parmesan", "Black Pepper"],
+    "cuisine": "Italian",
+    "prep_time": 20,
+    "difficulty": "easy",
+    "price": 500
+  },
+  {
+    "recipe_id": 2,
+    "name": "Chicken Biryani",
+    "ingredients": ["Rice", "Chicken", "Yogurt", "Spices", "Onion"],
+    "cuisine": "Indian",
+    "prep_time": 60,
+    "difficulty": "medium",
+    "price": 800
+  },
+  {
+    "recipe_id": 3,
+    "name": "Sushi",
+    "ingredients": ["Rice", "Nori", "Fish", "Soy Sauce", "Wasabi"],
+    "cuisine": "Japanese",
+    "prep_time": 50,
+    "difficulty": "hard",
+    "price": 1200
+  },
+  {
+    "recipe_id": 4,
+    "name": "Caesar Salad",
+    "ingredients": ["Romaine Lettuce", "Croutons", "Parmesan", "Caesar Dressing"],
+    "cuisine": "American",
+    "prep_time": 15,
+    "difficulty": "easy",
+    "price": 400
+  },
+  {
+    "recipe_id": 5,
+    "name": "Tacos",
+    "ingredients": ["Tortilla", "Beef", "Lettuce", "Cheese", "Tomato"],
+    "cuisine": "Mexican",
+    "prep_time": 25,
+    "difficulty": "easy",
+    "price": 450
+  }
+]
